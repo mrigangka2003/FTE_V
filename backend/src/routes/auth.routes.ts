@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { register, login } from "../services/auth.services.js";
+import { register, login } from "../services/auth.service";
 
 const authRoutes = new Hono();
 

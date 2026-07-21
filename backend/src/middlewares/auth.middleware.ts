@@ -1,6 +1,6 @@
 import type { Context, Next } from "hono";
-import { verifyToken } from "../utils/jwt.js";
-import type { AppVariables } from "../types/index.js";
+import { verifyToken } from "../utils/jwt";
+import type { AppVariables } from "../types";
 
 export async function authMiddleware(
   c: Context<{ Variables: AppVariables }>,

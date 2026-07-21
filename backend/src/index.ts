@@ -1,13 +1,23 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import 'dotenv/config'
+import { cors } from 'hono/cors'
 
-import { PORT } from './config/constants.js'
-import routes from './routes/index.js'
-import { errorHandler } from './middlewares/error.middleware.js'
-import type { AppVariables } from './types/index.js'
+import { PORT } from './config/constants'
+import routes from './routes'
+import { errorHandler } from './middlewares/error.middleware'
+import type { AppVariables } from './types'
 
 const app = new Hono<{ Variables: AppVariables }>()
+
+app.use('*', cors({
+  origin: (origin) => origin,
+  allowHeaders: ['Content-Type', 'Authorization'],
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  exposeHeaders: ['Content-Length'],
+  maxAge: 600,
+  credentials: true,
+}))
 
 app.get('/', (c) => {
   return c.text('Hello Hono!')
