@@ -15,7 +15,7 @@ export interface GetTransactionsResponse {
 }
 
 export interface CreateTransactionPayload {
-  rawText: string;
+  text: string;
 }
 
 export interface CreateTransactionResponse {
@@ -50,13 +50,13 @@ export async function createTransaction(rawText: string): Promise<Transaction> {
   const apiUrl = getApiUrl();
   const token = getToken();
 
-  const response = await fetch(`${apiUrl}/api/transactions`, {
+  const response = await fetch(`${apiUrl}/api/transactions/extract`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: token ? `Bearer ${token}` : "",
     },
-    body: JSON.stringify({ rawText }),
+    body: JSON.stringify({ text: rawText }),
   });
 
   if (!response.ok) {

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { register } from "@/services/auth.services";
+import { ThemeToggle } from "@/components/theme-toggle";
 import "../auth.css";
 
 export default function Register() {
@@ -34,13 +35,13 @@ export default function Register() {
         <Field label="Workspace name" type="text" value={form.organizationName} onChange={set("organizationName")} placeholder="Acme Finance" />
         <Field label="Email" type="email" value={form.email} onChange={set("email")} placeholder="you@company.com" />
         <Field label="Password" type="password" value={form.password} onChange={set("password")} placeholder="At least 8 characters" />
-        {error && <p className="rounded-lg bg-rose-50 p-3 text-sm text-rose-600">{error}</p>}
-        <button disabled={loading} className="w-full rounded-xl bg-[#3155d9] py-3.5 font-semibold text-white disabled:opacity-60">
+        {error && <p className="rounded-lg bg-rose-500/10 border border-rose-500/20 p-3 text-sm font-medium text-rose-600 dark:text-rose-400">{error}</p>}
+        <button disabled={loading} className="w-full rounded-xl bg-indigo-600 py-3.5 font-semibold text-white transition hover:bg-indigo-500 shadow-lg shadow-indigo-600/25 disabled:opacity-60">
           {loading ? "Creating…" : "Create account"}
         </button>
       </form>
-      <p className="mt-6 text-center text-sm text-slate-500">
-        Already have an account? <Link className="font-semibold text-[#3155d9]" href="/login">Sign in</Link>
+      <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
+        Already have an account? <Link className="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline" href="/login">Sign in</Link>
       </p>
     </AuthShell>
   );
@@ -48,23 +49,26 @@ export default function Register() {
 
 function Field(p: { label: string; type: string; value: string; onChange: (v: string) => void; placeholder: string }) {
   return (
-    <label className="block text-sm font-semibold text-slate-700">
+    <label className="block text-sm font-bold text-slate-800 dark:text-slate-200">
       {p.label}
-      <input required type={p.type} value={p.value} onChange={e => p.onChange(e.target.value)} placeholder={p.placeholder} className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-normal outline-none focus:border-[#3155d9] focus:ring-4 focus:ring-indigo-100" />
+      <input required type={p.type} value={p.value} onChange={e => p.onChange(e.target.value)} placeholder={p.placeholder} className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 font-normal text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white dark:placeholder:text-zinc-400 dark:focus:border-indigo-400" />
     </label>
   );
 }
 
 function AuthShell({ title, subtitle, children }: { title: string; subtitle: string; children: React.ReactNode }) {
   return (
-    <main className="auth-bg flex min-h-screen items-center justify-center px-6 py-10">
+    <main className="auth-bg flex min-h-screen items-center justify-center px-6 py-10 relative">
+      <div className="absolute top-6 right-6">
+        <ThemeToggle />
+      </div>
       <div className="w-full max-w-md">
-        <Link href="/" className="mx-auto mb-8 flex w-fit items-center gap-2 text-xl font-bold">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#3155d9] text-white">L</span> ledgerly
+        <Link href="/" className="mx-auto mb-8 flex w-fit items-center gap-3 text-xl font-extrabold text-slate-900 dark:text-white">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 text-white font-bold text-lg shadow-lg shadow-indigo-500/25">L</span> ledgerly
         </Link>
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-xl shadow-slate-900/5">
-          <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
-          <p className="mt-2 mb-8 text-sm text-slate-500">{subtitle}</p>
+        <div className="rounded-3xl border border-slate-300 bg-white/95 p-8 shadow-2xl backdrop-blur-xl dark:border-zinc-800 dark:bg-zinc-900/95 dark:shadow-black/60">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">{title}</h1>
+          <p className="mt-2 mb-8 text-sm text-slate-700 dark:text-slate-300 font-medium">{subtitle}</p>
           {children}
         </div>
       </div>

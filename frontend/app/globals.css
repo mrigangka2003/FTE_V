@@ -1,7 +1,161 @@
 @import "tailwindcss";
 
-:root { --background: #f8fafc; --foreground: #10233f; }
-@theme inline { --color-background: var(--background); --color-foreground: var(--foreground); --font-sans: var(--font-geist-sans); }
-* { box-sizing: border-box; }
-body { background: var(--background); color: var(--foreground); font-family: Arial, Helvetica, sans-serif; }
-::selection { background: #c7d2fe; color: #172554; }
+@layer base {
+  :root {
+    --background: #f8fafc;
+    --foreground: #0f172a;
+    --card: #ffffff;
+    --card-foreground: #0f172a;
+    --popover: #ffffff;
+    --popover-foreground: #0f172a;
+    --primary: #4f46e5;
+    --primary-foreground: #ffffff;
+    --secondary: #f1f5f9;
+    --secondary-foreground: #475569;
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+    --accent: #6366f1;
+    --accent-foreground: #ffffff;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #e2e8f0;
+    --input: #cbd5e1;
+    --ring: #6366f1;
+    --radius: 0.75rem;
+
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --glass-hover-bg: rgba(241, 245, 249, 0.85);
+  }
+
+  .dark {
+    --background: #09090b;
+    --foreground: #ffffff;
+    --card: #121215;
+    --card-foreground: #ffffff;
+    --popover: #121215;
+    --popover-foreground: #ffffff;
+    --primary: #6366f1;
+    --primary-foreground: #ffffff;
+    --secondary: #1e1e24;
+    --secondary-foreground: #cbd5e1;
+    --muted: #18181b;
+    --muted-foreground: #a1a1aa;
+    --accent: #818cf8;
+    --accent-foreground: #ffffff;
+    --destructive: #f87171;
+    --destructive-foreground: #ffffff;
+    --border: rgba(255, 255, 255, 0.12);
+    --input: rgba(255, 255, 255, 0.18);
+    --ring: #818cf8;
+
+    --glass-bg: rgba(18, 18, 21, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-hover-bg: rgba(28, 28, 35, 0.85);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+}
+
+/* Light mode uses true black for readable primary and secondary copy. */
+:root:not(.dark) .text-slate-500,
+:root:not(.dark) .text-slate-600,
+:root:not(.dark) .text-slate-700,
+:root:not(.dark) .text-slate-800,
+:root:not(.dark) .text-slate-900 {
+  color: #000000 !important;
+}
+
+.font-mono {
+  font-family: var(--font-mono), monospace;
+}
+
+::selection {
+  background: #6366f1;
+  color: #ffffff;
+}
+
+/* Glassmorphism & Custom Effects */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
+  background: var(--glass-hover-bg);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.2);
+  transform: translateY(-2px);
+}
+
+.glow-blue {
+  box-shadow: 0 0 40px -10px rgba(99, 102, 241, 0.35);
+}
+
+/* Light-mode subtext uses zinc-900 for strong contrast. Text on dark surfaces stays light. */
+:root:not(.dark) .text-slate-500,
+:root:not(.dark) .text-slate-600,
+:root:not(.dark) .text-slate-700 {
+  color: #18181b !important;
+}
+
+.bg-zinc-900 .text-slate-500,
+.bg-zinc-900 .text-slate-600,
+.bg-zinc-900 .text-slate-700,
+.bg-\[\#09090b\] .text-slate-500,
+.bg-\[\#09090b\] .text-slate-600,
+.bg-\[\#09090b\] .text-slate-700 {
+  color: #e4e4e7 !important;
+}
+
+/* Solid text utilities enforcing dark text in light mode and white text in dark mode */
+.text-gradient {
+  color: #0f172a;
+}
+
+.dark .text-gradient {
+  color: #ffffff;
+}
+
+.text-gradient-emerald {
+  color: #059669;
+}
+
+.dark .text-gradient-emerald {
+  color: #34d399;
+}
+
+/* Keyframe animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.04); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulseGlow 8s ease-in-out infinite;
+}
